@@ -1,4 +1,5 @@
 // ~~~ Created By Jacob Taylor ~~~
+"using strict";
 
 function gameStart(){
 
@@ -51,69 +52,41 @@ function userSettings(settingsData, x){
 
 	playerCount = settingsData[4];
 	if (x === true){ // creating player arrays and setting everyone's starting dice to a d4
-
-		if (playerCount == 2){
-			player1 = [];
-			playerPosition1 = 0;
-			player1.push(playerPosition1);
-			player2 = [];
-			playerPosition2 = 0;
-			player2.push(playerPosition2);
-			playerPackage = [];
-		}
-		else if (playerCount = 3){
-			player1 = [];
-			playerPosition1 = 0;
-			player1.push(playerPosition1);
-			player2 = [];
-			playerPosition2 = 0;
-			player2.push(playerPosition2);
-			player3 = [];
-			playerPosition3 = 0;
-			player3.push(playerPosition3);
-			playerPackage = [];
-		}
-		else (playerCount = 4){
-			let player1 = [];
-			playerPosition1 = 0;
-			player1.push(playerPosition1);
-			let player2 = [];
-			playerPosition2 = 0;
-			player2.push(playerPosition2);
-			let player3 = [];
-			playerPosition3 = 0;
-			player3.push(playerPosition3);
-			let player4 = [];
-			playerPosition4 = 0;
-			player4.push(playerPosition4);
-			let playerPackage = [];
-		}
-
 		let diceCounter = 0;
+
 			if (playerCount == 2){
-				player1.push(diceCounter);
-				player2.push(diceCounter);
-				playerPackage.push(player1, player2);
+				playerPosition1 = 0;
+				playerPosition2 = 0;
+				player1 = [playerPosition1, diceCounter];
+				player2 = [playerPosition2, diceCounter];
+				playerPackage = [player1, player2];
 				x = false;
 				return playerPackage;
 			}
 			else if (playerCount = 3){
-				player1.push(diceCounter);
-				player2.push(diceCounter);
-				player3.push(diceCounter);
-				playerPackage.push(player1, player2, player3);
+				playerPosition1 = 0;
+				playerPosition2 = 0;
+				playerPosition3 = 0;
+				player1 = [playerPosition1, diceCounter];
+				player2 = [playerPosition2, diceCounter];
+				player3 = [playerPosition3, diceCounter];
+				playerPackage = [player1, player2, player3];
 				x = false;
 				return playerPackage;
 			}
-			else if (playerCount = 4){
-				player1.push(diceCounter);
-				player2.push(diceCounter);
-				player3.push(diceCounter);
-				player4.push(diceCounter);
-				playerPackage.push(player1, player2, player3, player4);
+			else (playerCount = 4){
+				let playerPosition1 = 0;
+				let playerPosition2 = 0;
+				let playerPosition3 = 0;
+				let playerPosition4 = 0;
+				let player1 = [playerPosition1, diceCounter];
+				let player2 = [playerPosition2, diceCounter];
+				let player3 = [playerPosition3, diceCounter];
+				let player4 = [playerPosition4, diceCounter];
+				let playerPackage = [player1, player2, player3, player4];
 				x = false;
 				return playerPackage;
-		}
+			}
 			else {
 			console.log("Error: Player count exeption. Check 'playerCount' and try again.");
 			alert ("Error: Player count exeption. Check 'playerCount' and try again.")
@@ -205,7 +178,7 @@ function upgradeHandler(diceCounter){
 
 function playerMovement(playerCount, playerPackage){
 
-	
+
 }
 
 function upgradeHelper{
