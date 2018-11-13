@@ -1,7 +1,7 @@
 // ~~~ Created By Jacob Taylor ~~~
 "using strict";
 
-function gameStart(){
+function gameStart(x){
 
 	// begins the game loop
 		let x = true;
@@ -10,7 +10,6 @@ function gameStart(){
 		userSettings(settingsData, x);
 		boardGenerator(setttingsData, playerPackage);
 		diceGame(diceCounter, playerCount, diceRoll, playerPackage, boardPackage);
-		playerMovement(playerCount, y);
 		return x;
 }
 
@@ -41,58 +40,24 @@ function gameSettings(){ // All of these error catches I would like to change la
 		console.log("There are currently: " + percentileAllowance + " percentile spaces being added.");
 
 	let settingsData = [];
-	settingsData.push(upgradeAllowance);    // UA index = 0
-	settingsData.push(percentileAllowance); // PA index = 1
-	settingsData.push(boardSpaces);         // BS index = 2
-	settingsData.push(playerCount);         // PC index = 3
-	return settingsData;					// ^ References for later
+	settingsData.push(upgradeAllowance, percentileAllowance, boardSpaces, playerCount);
+	return settingsData; // ua = 0, pa = 1, bs = 2, pc = 3
 }
 
-function userSettings(settingsData, x){
+function userSettings(settingsData, x, playerCount){
 
-	playerCount = settingsData[4];
+	playerCount = settingsData[3];
+	if (playerCount > 4 || playerCount < 2){
+		console.log("Error: Player count exeption. Check 'playerCount' and try again.");
+		alert ("Error: Player count exeption. Check 'playerCount' and try again.")
+	}
+
 	if (x === true){ // creating player arrays and setting everyone's starting dice to a d4
 		let diceCounter = 0;
-
-			if (playerCount == 2){
-				playerPosition1 = 0;
-				playerPosition2 = 0;
-				player1 = [playerPosition1, diceCounter];
-				player2 = [playerPosition2, diceCounter];
-				playerPackage = [player1, player2];
-				x = false;
-				return playerPackage;
-			}
-			else if (playerCount = 3){
-				playerPosition1 = 0;
-				playerPosition2 = 0;
-				playerPosition3 = 0;
-				player1 = [playerPosition1, diceCounter];
-				player2 = [playerPosition2, diceCounter];
-				player3 = [playerPosition3, diceCounter];
-				playerPackage = [player1, player2, player3];
-				x = false;
-				return playerPackage;
-			}
-			else (playerCount = 4){
-				let playerPosition1 = 0;
-				let playerPosition2 = 0;
-				let playerPosition3 = 0;
-				let playerPosition4 = 0;
-				let player1 = [playerPosition1, diceCounter];
-				let player2 = [playerPosition2, diceCounter];
-				let player3 = [playerPosition3, diceCounter];
-				let player4 = [playerPosition4, diceCounter];
-				let playerPackage = [player1, player2, player3, player4];
-				x = false;
-				return playerPackage;
-			}
-			else {
-			console.log("Error: Player count exeption. Check 'playerCount' and try again.");
-			alert ("Error: Player count exeption. Check 'playerCount' and try again.")
-		}
-	}
-	else 
+		let playerPosition = 0;
+		let playerPackage = [playerPosition, diceCounter];
+			x = false;
+			return playerPackage;
 }
 
 function boardGenerator(settingsData, playerPackage){
@@ -112,75 +77,65 @@ function boardGenerator(settingsData, playerPackage){
 		percentileAllowance--;
 	}
 
-	let boardPackage.push(uaPack);
-	boardPackage.push(paPack);
-	boardPackage.push(finalSpace);
-	return boardPackage;
+	let boardPackage.push(uaPack, paPack, finalSpace, boardSpaces);
+	return boardPackage; // uaP = 0, paP = 1, fs = 2, bs = 3
 }
 
 function diceGame(diceCounter, playerCount, diceRoll, playerPackage, boardPackage){
 
+	// Main function handling most of the actual dice game (after settings have been established)
+	for (playerActions; playerActions =< playerCount; playerActions++){
+		turnHandler(playerActions, playerCount);
+		if (y === false){
+			playerPackage[0][0] = rollHandler(diceRoll);
+		}
+	}
 }
 
-function rollHandler(diceCounter){
+function rollHandler(diceRoll, percentRoll){
 
-	let diceRoll = Number;
-
-	if (diceCounter == 0){
-		while (x > 4){
-			x = Math.floor((Math.random()* 10) + 1);
-		}
+	if (diceRoll){
+		let diceRoll = Number;
+		let x = Math.floor((Math.random()* 20) + 1); // rolls a number 1 out of 20
+		diceRoll = x;
+		return diceRoll;
 	}
-	else if (diceCounter == 1){
-		while (x > 6){
-			x = Math.floor((Math.random()* 10) + 1);	
-		}
+	else if (percentRoll){
+		let percentRoll = Number;
+		let x = Math.floor((x = Math.random()* 100) + 1);
+		percentRoll = Math.floor(boardSpaces * (Math.floor(x * 100)/100)); // converting "x" to a decimal then multiplying x by boardSpace and rounding to the nearest whole number
+		return percentRoll; // This is now representing the space to move the player
 	}
-	else if (diceCounter == 2){
-		while (x > 8){
-			x = Math.floor((Math.random()* 10) + 1);
-		}
-	}
-	else if (diceCounter == 3){
-		while (x > 12){
-			x = Math.floor((Math.random()* 20) + 1);
-		}
-	}
-	else (diceCounter == 4){
-		while (x > 20){
-			x = Math.floor((Math.random()* 20) + 1);
-		}
-	}
-	return diceRoll;
 }
 
 function upgradeHandler(diceCounter){
 
-	let diceCounter = Number;
-
-	if (diceCounter == 0){
-		diceCounter = 1;
-		return diceCounter;
-	}
-	else if (diceCounter == 1){
-		diceCounter = 2;
-		return diceCounter;
-	}
-	else if (diceCounter == 2){
-		diceCounter = 3;
-		return diceCounter;
-	}
-	else (diceCounter == 3){
-		diceCounter = 4;
+	let diceCounter += diceCounter;
 		return diceCounter;
 	}
 }
 
-function playerMovement(playerCount, playerPackage){
+// playerPackage[0] = playerMovement(playerPackage[0])
+// playerPackage[1] = playerMovement(playerPackage[1])
 
-
+function playerMovement(player, diceRoll){
+	player[0] += diceRoll;
+	return player;
 }
 
-function upgradeHelper{
+	//let a = playerPackage[0][0]; // "a" is representitive of current position
+	//a = (a + diceRoll); // moving player forward by whatever the dice roll was equal to
+	//playerPackage.unshift([0][0]);
+	//playerPackage.shift(a); // updating new postion
+	//return playerPackage;
 
+
+function turnHandler(playerActions, playerCount){
+
+	while (playerActions < playerCount){
+		let y = false;
+		return y;
+	}
+	y = true;
+	return y;
 }
