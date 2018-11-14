@@ -81,13 +81,33 @@ function boardGenerator(settingsData, playerPackage){
 	return boardPackage; // uaP = 0, paP = 1, fs = 2, bs = 3
 }
 
-function diceGame(diceCounter, playerCount, diceRoll, playerPackage, boardPackage){
+function diceGame(diceCounter, playerCount, diceRoll, playerPackage, boardPackage, b){
 
 	// Main function handling most of the actual dice game (after settings have been established)
+
+	if (b === true){
+		let player1 = player.map(playerMapper); // players being copied into new arrays
+		let player2 = player.map(playerMapper); // new player arrays are handled just
+		let player3 = player.map(playerMapper); // inside of this function
+		let player4 = player.map(playerMapper);
+		let b = false;
+		return b;
+	}
+
 	for (playerActions; playerActions =< playerCount; playerActions++){
 		turnHandler(playerActions, playerCount);
 		if (y === false){
-			playerPackage[0][0] = rollHandler(diceRoll);
+			player1[0] = player1[0] + rollHandler(diceRoll);
+			if (player1[0] = finalSpace){
+				console.log ("Player 1 wins!");
+			}
+			else if (player1[0] = upgradeSpace){
+				player1[1] = upgradeHandler(diceCounter);
+			}
+			else if (player1[0] = percentSpace){
+				player1[0] = rollHandler(percentRoll);
+			}
+
 		}
 	}
 }
@@ -138,4 +158,8 @@ function turnHandler(playerActions, playerCount){
 	}
 	y = true;
 	return y;
+}
+
+function playerMapper(value, index, array){
+	return player;
 }
