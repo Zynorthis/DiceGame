@@ -1,22 +1,24 @@
 // ~~~ Created By Jacob Taylor ~~~
 "using strict";
 
-function gameStart(x){
+function gameStart(){
 
 	// begins the game loop
 		let x = true;
 		let y = true;
-		gameSettings();
-		userSettings(settingsData, x);
-		boardGenerator(setttingsData, playerPackage);
-		diceGame(diceCounter, playerCount, diceRoll, playerPackage, boardPackage);
+		let settingsData = gameSettings();
+		let playerPackage = userSettings(settingsData, x);
+		boardGenerator(settingsData, playerPackage);
+		diceGame(playerPackage, boardPackage);
 		return x;
 }
 
 function gameSettings(){ // All of these error catches I would like to change later to allow the script to still exicute
-						 // by re-prompting the user for an valid input.
+						 			 // by re-prompting the user for an valid input.
+	let playerCount = Number;
+	let boardSpaces = Number;
 
-	let playerCount = prompt("How many players will there be? (2-4 allowed)");
+	playerCount = prompt("How many players will there be? (2-4 allowed)");
 		if (isNaN(playerCount)) throw "Error 300: Not a Number." && alert("Error 300: Not a Number.");
 		if (playerCount == null) throw "Error 201: Null answer." && alert("Error 201: Null answer.");
 		if (playerCount > 4) throw "That is too many players!" && alert("That is too many players!");
@@ -25,7 +27,7 @@ function gameSettings(){ // All of these error catches I would like to change la
 			console.log("Your player count is: " + playerCount);
 		}
 
-	let boardSpaces = prompt("How many board spaces will there be? (10-100 allowed)");
+	boardSpaces = prompt("How many board spaces will there be? (10-100 allowed)");
 		if (isNaN(boardSpaces)) throw "Error 300: Not a Number." && alert("Error 300: Not a Number.");
 		if (boardSpaces == null) throw "Error 201: Null answer." && alert("Error 201: Null answer.");
 		if (boardSpaces > 100 ) throw "That is too many board spaces!" && alert("That is too many board spaces!");
@@ -69,19 +71,20 @@ function boardGenerator(settingsData, playerPackage){
 	let finalSpace = boardspaces;
 
 	while (upgradeAllowance > 0){
-		let uaPack.push(Math.floor((Math.random()* boardSpaces) + 1));
+		uaPack.push(Math.floor(Math.random() * boardSpaces) + 1);
 		upgradeAllowance--;
+	}
 
 	while (percentileAllowance > 0){
-		let paPack.push(Math.floor((Math.random()* boardSpaces) + 1));
+		paPack.push(Math.floor(Math.random() * boardSpaces) + 1);
 		percentileAllowance--;
 	}
 
-	let boardPackage.push(uaPack, paPack, finalSpace, boardSpaces);
+	boardPackage.push(uaPack, paPack, finalSpace, boardSpaces);
 	return boardPackage; // uaP = 0, paP = 1, fs = 2, bs = 3
 }
 
-function diceGame(diceCounter, playerCount, diceRoll, playerPackage, boardPackage, b){
+function diceGame(playerPackage, boardPackage, b, y){
 
 	// Main function handling most of the actual dice game (after settings have been established)
 
@@ -94,10 +97,10 @@ function diceGame(diceCounter, playerCount, diceRoll, playerPackage, boardPackag
 		return b;
 	}
 
-	for (playerActions; playerActions =< playerCount; playerActions++){
+	for (playerActions; playerActions <= playerCount; playerActions++){
 		turnHandler(playerActions, playerCount);
 		if (y === false){
-			player1[0] = player1[0] + rollHandler(diceRoll);
+			player1[0] = player1[0] + rollConditional(diceRoll);
 			if (player1[0] = finalSpace){
 				console.log ("Player 1 wins!");
 			}
@@ -105,32 +108,48 @@ function diceGame(diceCounter, playerCount, diceRoll, playerPackage, boardPackag
 				player1[1] = upgradeHandler(diceCounter);
 			}
 			else if (player1[0] = percentSpace){
-				player1[0] = rollHandler(percentRoll);
+				player1[0] = rollConditional(percentRoll);
 			}
-
 		}
 	}
 }
 
-function rollHandler(diceRoll, percentRoll){
+function rollConditional(diceCounter){
+	let a = diceCounter;
+	let diceRoll = rollHandler();
 
-	if (diceRoll){
-		let diceRoll = Number;
-		let x = Math.floor((Math.random()* 20) + 1); // rolls a number 1 out of 20
-		diceRoll = x;
-		return diceRoll;
+	while (diceCounter == 0 || diceRoll > 4){
+		rollHandler();
 	}
-	else if (percentRoll){
-		let percentRoll = Number;
-		let x = Math.floor((x = Math.random()* 100) + 1);
-		percentRoll = Math.floor(boardSpaces * (Math.floor(x * 100)/100)); // converting "x" to a decimal then multiplying x by boardSpace and rounding to the nearest whole number
-		return percentRoll; // This is now representing the space to move the player
+	while (diceCounter == 1 || diceRoll > 6){
+		rollHandler();
 	}
+	while (diceCounter == 2 || diceRoll > 8){
+		rollHandler();
+	}
+	while (diceCounter == 3 || diceRoll > 12){
+		rollHandler();
+	}
+	while (diceCounter == 4 || diceRoll > 20){
+		rollHandler();
+	}
+
+	if (percentRoll === true){
+			let a = Math.floor(boardSpaces * (diceRoll * 0.01)); // converts dice roll into a decimal then multiplys it by the total boardSpace and returns the value
+			return a; // this will be the new space the player will be moved to.
+	}
+}
+
+function rollHandler(){
+
+	let diceRoll = Number;
+	let diceRoll = Math.floor((Math.random()* 100) + 1); // returns a number 1 out of 100
+	return diceRoll;
 }
 
 function upgradeHandler(diceCounter){
 
-	let diceCounter += diceCounter;
+	diceCounter += diceCounter;
 		return diceCounter;
 	}
 }
