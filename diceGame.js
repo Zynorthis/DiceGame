@@ -15,7 +15,8 @@ function gameStart(){
 }
 
 function gameSettings(){ // All of these error catches I would like to change later to allow the script to still exicute
-						 			 // by re-prompting the user for an valid input.
+						 // by re-prompting the user for an valid input.
+
 	let playerCount = Number;
 	let boardSpaces = Number;
 	let b = true;
@@ -90,56 +91,71 @@ function boardGenerator(settingsData, playerPackage){
 	return boardPackage; // uaP = 0, paP = 1, fs = 2
 }
 
-function diceGame(playerPackage, boardPackage, settingsData, y){ // Main function handling most of the actual dice game (after settings have been established)
-	let b = settingsData[4];
-	
-		if (b === true){
-			settingsData.pop();
-			let upPack = [];
-			let perPack = [];
-			let finalSpace = boardPackage[2];
-			boardPackage[0] = upPack;
-			boardPackage[1] = perPack;
+function diceGame(playerPackage, boardPackage, settingsData, y){ 
+// Main function handling most of the actual dice game (after settings have been established)
 
-			let player = [];
-			player = playerPackage.map(playerMapper);
-			let player1 = [];
-			player1 = player.map(playerMapper); // players being copied into new arrays
-			let player2 = []; 
-			player2 = player.map(playerMapper); // new player arrays are scoped to just
-			let player3 = [];
-			player3 = player.map(playerMapper); // be inside of this function
-			let player4 = [];
-			player4 = player.map(playerMapper);
-			let b = false;
-		}
+	let playerCount = playerPackage[2];
+	let finalSpace = boardPackage[2];
+	let upPack = [];
+	let perPack = [];
+	let player = [];
+		let player1 = [];
+		let player2 = [];
+		let player3 = [];
+		let player4 = [];
+	upPack = boardPackage[0];
+	perPack = boardPackage[1];
+
+	gameFinalSetup(player, playerPackage, boardPackage, settingsData);
 
 	for (let playerRotation = 1; playerRotation <= playerCount; playerRotation++){
-		if (playerRotation = 1){
-			let i = player1;
-		}
-		else if (playerRotation = 2){
-			i = player2;
-		}
-		else if (playerRotation = 3){
-			i = player3;
-		}
-		else if (playerRotation = 4){
-			i =  player4;
-		}
-	playerManipulation(i, settingsData, y);
+		playerRotate(playerRotation, player1, player2, player3, player4);
+		// diceGame(playerPackage, boardPackage, settingsData, y);
+	}
+}
+
+function gameFinalSetup(player, playerPackage, boardPackage, settingsData){
+	let b = settingsData[4];
+	if (b === true){
+		settingsData.pop();
+		player = playerPackage.map(playerMapper);
+		player1 = player.map(playerMapper); // players being copied into new arrays 
+		player2 = player.map(playerMapper); // new player arrays are scoped to just
+		player3 = player.map(playerMapper); // be inside of this function
+		player4 = player.map(playerMapper);
+		let b = false;
+	}
+}
+
+function playerRotate(playerRotation, player1, player2, player3, player4, settingsData, y){
+	let i =[];
+	if (playerRotation = 1){
+		let i = player1.map(playerMapper);
+		playerManipulation(i, settingsData, y);
+	}
+	else if (playerRotation = 2){
+		let i = player2.map(playerMapper);
+		playerManipulation(i, settingsData, y);
+	}
+	else if (playerRotation = 3){
+		let i = player3.map(playerMapper);
+		playerManipulation(i, settingsData, y);
+	}
+	else if (playerRotation = 4){
+		let i =  player4.map(playerMapper);
+		playerManipulation(i, settingsData, y);
 	}
 }
 
 function playerManipulation(player, settingsData, y, a){
 	// turnHandler(playerRotation, playerCount);
+	let diceCounter = player[1];
 
-	if (y === false){
+	if (y === true){
 		player[0] = player[0] + rollCondition(diceCounter);
-		// player[0] = playerMovement(playerPackage[0]);
 
-		if (player[0] = finalSpace){
-			console.log ("Player 1 wins!");
+		if (player[0] >= finalSpace){
+			console.log(player + " wins!");
 		}
 		else if (player[0] = upgradeSpace){
 			player[1] = upgradeHandler(diceCounter);
@@ -151,7 +167,7 @@ function playerManipulation(player, settingsData, y, a){
 }
 
 function rollCondition(diceCounter, percentileCheck){
-	let diceRoll = rollHandler();
+	diceRoll = rollHandler();
 
 	while (diceCounter == 0 || diceRoll > 4){
 		rollHandler();
@@ -170,7 +186,8 @@ function rollCondition(diceCounter, percentileCheck){
 	}
 
 	if (percentileCheck === true){
-			let a = Math.floor(boardSpaces * (diceRoll * 0.01)); // converts dice roll into a decimal then multiplys it by the total boardSpace and returns the value
+			let a = Math.floor(boardSpaces * (diceRoll * 0.01)); 
+					  // converts dice roll into a decimal then multiplys it by the total boardSpace and returns the value
 			return a; // this will be the new space the player will be moved to.
 	}
 }
@@ -178,7 +195,7 @@ function rollCondition(diceCounter, percentileCheck){
 function rollHandler(){
 
 	let diceRoll = Number;
-	let diceRoll = Math.floor((Math.random()* 100) + 1); // returns a number 1 out of 100
+	diceRoll = Math.floor((Math.random()* 100) + 1); // returns a number 1 out of 100
 	return diceRoll;
 }
 
@@ -189,29 +206,6 @@ function upgradeHandler(diceCounter){
 		return diceCounter;
 
 }
-
-// function playerMovement(player, diceRoll){
-	//let player;
-	//player[0] += diceRoll;
-	//return player;
-//}
-
-	//let a = playerPackage[0][0]; // "a" is representitive of current position
-	//a = (a + diceRoll); // moving player forward by whatever the dice roll was equal to
-	//playerPackage.unshift([0][0]);
-	//playerPackage.shift(a); // updating new postion
-	//return playerPackage;
-
-
-	//function turnHandler(playerRotation, playerCount){
-
-	//	while (playerRotation <= playerCount){
-	//		let y = false;
-	//		return y;
-	//	}
-	//	y = true;
-	//	return y;
-	//}
 
 function playerMapper(value, index, array){
 	value * 1
