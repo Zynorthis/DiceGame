@@ -90,50 +90,67 @@ function boardGenerator(settingsData, playerPackage){
 	return boardPackage; // uaP = 0, paP = 1, fs = 2
 }
 
-function diceGame(playerPackage, boardPackage, settingsData, y){
+function diceGame(playerPackage, boardPackage, settingsData, y){ // Main function handling most of the actual dice game (after settings have been established)
 	let b = settingsData[4];
-	let player = [];
-	playerPackage.pop();
-	player = playerPackage.map(playerMapper);
+	
+		if (b === true){
+			settingsData.pop();
+			let upPack = [];
+			let perPack = [];
+			let finalSpace = boardPackage[2];
+			boardPackage[0] = upPack;
+			boardPackage[1] = perPack;
 
-	// Main function handling most of the actual dice game (after settings have been established)
+			let player = [];
+			player = playerPackage.map(playerMapper);
+			let player1 = [];
+			player1 = player.map(playerMapper); // players being copied into new arrays
+			let player2 = []; 
+			player2 = player.map(playerMapper); // new player arrays are scoped to just
+			let player3 = [];
+			player3 = player.map(playerMapper); // be inside of this function
+			let player4 = [];
+			player4 = player.map(playerMapper);
+			let b = false;
+		}
 
-	if (b === true){
-		let player1 = [];
-		player1 = player.map(playerMapper); // players being copied into new arrays
-		let player2 = []; 
-		player2 = player.map(playerMapper); // new player arrays are scoped to just
-		let player3 = [];
-		player3 = player.map(playerMapper); // be inside of this function
-		let player4 = [];
-		player4 = player.map(playerMapper);
-		let b = false;
-	}
-		while(i <= playerCount){
-		playerManipulation(player1, settingsData, y);
-		playerManipulation(player2, settingsData, y);
-	}
-}
-function playerManipulation(player, settingsData, y){
 	for (let playerRotation = 1; playerRotation <= playerCount; playerRotation++){
-			turnHandler(playerRotation, playerCount);
-			if (y === false){
-				(player + playerRotation)[0] = (player + playerRotation)[0] + rollCondition(diceRoll);
-				if ((player + playerRotation)[0] = finalSpace){
-					console.log ("Player 1 wins!");
-				}
-				else if ((player + playerRotation)[0] = upgradeSpace){
-					(player + playerRotation)[1] = upgradeHandler(diceCounter);
-				}
-				else if ((player + playerRotation)[0] = percentSpace){
-					(player + playerRotation)[0] = rollCondition(percentileCheck);
-				}
-			}
+		if (playerRotation = 1){
+			let i = player1;
+		}
+		else if (playerRotation = 2){
+			i = player2;
+		}
+		else if (playerRotation = 3){
+			i = player3;
+		}
+		else if (playerRotation = 4){
+			i =  player4;
+		}
+	playerManipulation(i, settingsData, y);
 	}
 }
 
-function rollCondition(diceCounter){
-	let a = diceCounter;
+function playerManipulation(player, settingsData, y, a){
+	// turnHandler(playerRotation, playerCount);
+
+	if (y === false){
+		player[0] = player[0] + rollCondition(diceCounter);
+		// player[0] = playerMovement(playerPackage[0]);
+
+		if (player[0] = finalSpace){
+			console.log ("Player 1 wins!");
+		}
+		else if (player[0] = upgradeSpace){
+			player[1] = upgradeHandler(diceCounter);
+		}
+		else if (player[0] = percentSpace){
+			player[0] = rollCondition(percentileCheck);	
+		}
+	}
+}
+
+function rollCondition(diceCounter, percentileCheck){
 	let diceRoll = rollHandler();
 
 	while (diceCounter == 0 || diceRoll > 4){
@@ -167,18 +184,17 @@ function rollHandler(){
 
 function upgradeHandler(diceCounter){
 
+	let diceCounter = Number;
 	diceCounter += diceCounter;
 		return diceCounter;
 
 }
 
-// playerPackage[0] = playerMovement(playerPackage[0])
-// playerPackage[1] = playerMovement(playerPackage[1])
-
-function playerMovement(player, diceRoll){
-	player[0] += diceRoll;
-	return player;
-}
+// function playerMovement(player, diceRoll){
+	//let player;
+	//player[0] += diceRoll;
+	//return player;
+//}
 
 	//let a = playerPackage[0][0]; // "a" is representitive of current position
 	//a = (a + diceRoll); // moving player forward by whatever the dice roll was equal to
@@ -187,15 +203,15 @@ function playerMovement(player, diceRoll){
 	//return playerPackage;
 
 
-function turnHandler(playerRotation, playerCount){
+	//function turnHandler(playerRotation, playerCount){
 
-	while (playerRotation <= playerCount){
-		let y = false;
-		return y;
-	}
-	y = true;
-	return y;
-}
+	//	while (playerRotation <= playerCount){
+	//		let y = false;
+	//		return y;
+	//	}
+	//	y = true;
+	//	return y;
+	//}
 
 function playerMapper(value, index, array){
 	value * 1
